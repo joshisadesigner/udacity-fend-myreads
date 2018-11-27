@@ -6,4 +6,4 @@ class SearchBooks extends Component {
     }
 }
 
-export default CreateContact;
+export default SearchBooks;
