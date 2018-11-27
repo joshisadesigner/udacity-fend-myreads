@@ -2,18 +2,47 @@ import React, { Component } from 'react';
 import Book from './Book';
 
 class Shelf extends Component {
+    /**
+     * @description: Make human readable shelf name
+     * @param: String - shelf name 'currentlyReading'
+     * @returns: String - 'Currently Reading'
+     */
+    readableName = string => {
+        switch (string) {
+            case 'currentlyReading':
+                return 'Currently Reading';
+            case 'wantToRead':
+                return 'Want To Read';
+            case 'read':
+                return 'Read';
+            default:
+                return 'None';
+        }
+    };
     render() {
-        const { books } = this.props;
+        const { books, shelfs } = this.props;
         return (
-            <div className="bookshelf">
-                <h2 className="bookshelf-title">Currently Reading</h2>
-                <div className="bookshelf-books">
-                    <ol className="books-grid">
-                        {books.map(book => (
-                            <Book book={book} key={book.id} />
-                        ))}
-                    </ol>
-                </div>
+            <div>
+                {shelfs.map(shelf => (
+                    <div className="bookshelf" key={shelf}>
+                        <h2 className="bookshelf-title">
+                            {this.readableName(shelf)}
+                        </h2>
+                        <div className="bookshelf-books">
+                            <ol className="books-grid">
+                                {books
+                                    .filter(book => book.shelf === shelf)
+                                    .map(book => (
+                                        <Book
+                                            book={book}
+                                            key={book.id}
+                                            shelfs={shelfs}
+                                        />
+                                    ))}
+                            </ol>
+                        </div>
+                    </div>
+                ))}
             </div>
         );
     }

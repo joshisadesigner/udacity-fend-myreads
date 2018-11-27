@@ -13,15 +13,26 @@ class BooksApp extends React.Component {
          * pages, as well as provide a good URL they can bookmark and share.
          */
         showSearchPage: false,
-        books: []
+        books: [],
+        shelfs: []
     };
 
     componentDidMount() {
         BooksAPI.getAll().then(books => {
-            console.log(books);
-            this.setState({ books });
+            this.setState({ books, shelfs: this.existingShelfs(books) });
         });
     }
+
+    /**
+     * @description: Create array for existing shelft defined in fhelft key of the books
+     * @param: this.state.book
+     * @returns: Array, existing shelfs
+     */
+    existingShelfs = books => {
+        let shelfsArr = books.map(book => book.shelf);
+        let shelfs = new Set(shelfsArr);
+        return [...shelfs];
+    };
 
     render() {
         return (
@@ -34,9 +45,10 @@ class BooksApp extends React.Component {
                             <h1>MyReads</h1>
                         </div>
                         <div className="list-books-content">
-                            <div>
-                                <Shelf books={this.state.books} />
-                            </div>
+                            <Shelf
+                                books={this.state.books}
+                                shelfs={this.state.shelfs}
+                            />
                         </div>
                         <div className="open-search">
                             <button
