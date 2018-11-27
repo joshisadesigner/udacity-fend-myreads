@@ -24,7 +24,7 @@ class BooksApp extends React.Component {
     }
 
     /**
-     * @description: Create array for existing shelft defined in fhelft key of the books
+     * @description: Create array for existing shelft defined in shelf key of the books
      * @param: this.state.book
      * @returns: Array, existing shelfs
      */
