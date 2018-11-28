@@ -16,24 +16,41 @@ class BooksApp extends React.Component {
         books: [],
         shelfs: []
     };
-
-    componentDidMount() {
+    /**
+     * @description function to reuse to get data from server
+     * @param none
+     * @returns Array of objects - books and shelfs
+     */
+    getBooksData() {
         BooksAPI.getAll().then(books => {
-            this.setState({ books, shelfs: this.existingShelfs(books) });
+            this.setState({
+                books,
+                shelfs: this.existingShelfs(books)
+            });
         });
     }
-
+    componentDidMount() {
+        this.getBooksData();
+    }
     /**
-     * @description: Create array for existing shelft defined in shelf key of the books
-     * @param: this.state.book
-     * @returns: Array, existing shelfs
+     * @description Create array for existing shelft defined in shelf key of the books
+     * @param Array books array
+     * @returns Array, existing shelfs
      */
     existingShelfs = books => {
         let shelfsArr = books.map(book => book.shelf);
         let shelfs = new Set(shelfsArr);
         return [...shelfs];
     };
-
+    /**
+     * @description Change book shelf value
+     * @param Object name of the book to change
+     * @param String name of the shelf where the book will be moved
+     * @returns Array - List of all books with changed shelfs
+     */
+    moveToShelf = (book, newShelf) => {
+        BooksAPI.update(book, newShelf).then(this.getBooksData());
+    };
     render() {
         return (
             <div className="app">
@@ -48,6 +65,7 @@ class BooksApp extends React.Component {
                             <Shelf
                                 books={this.state.books}
                                 shelfs={this.state.shelfs}
+                                moveToShelf={this.moveToShelf}
                             />
                         </div>
                         <div className="open-search">
