@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 
 class SearchBooks extends Component {
+    handleSearch = e => {
+        this.props.searchBooks(e.target.value);
+    };
     render() {
         return (
             <div className="search-books">
@@ -23,6 +26,7 @@ class SearchBooks extends Component {
                         <input
                             type="text"
                             placeholder="Search by title or author"
+                            onChange={this.handleSearch}
                         />
                     </div>
                 </div>

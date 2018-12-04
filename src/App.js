@@ -23,6 +23,7 @@ class BooksApp extends React.Component {
      */
     getBooksData() {
         BooksAPI.getAll().then(books => {
+            console.log(books);
             this.setState({
                 books,
                 shelfs: this.existingShelfs(books)
@@ -51,11 +52,19 @@ class BooksApp extends React.Component {
     moveToShelf = (book, newShelf) => {
         BooksAPI.update(book, newShelf).then(this.getBooksData());
     };
+    searchBooks = query => {
+        BooksAPI.search(query).then(response => {
+            console.log(query, response);
+        });
+    };
     render() {
         return (
             <div className="app">
                 {this.state.showSearchPage ? (
-                    <SearchBooks books={this.state.books} />
+                    <SearchBooks
+                        books={this.state.books}
+                        searchBooks={this.searchBooks}
+                    />
                 ) : (
                     <div className="list-books">
                         <div className="list-books-title">
