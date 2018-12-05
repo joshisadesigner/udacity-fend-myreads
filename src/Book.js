@@ -4,26 +4,53 @@ class Book extends Component {
     handleSelection = e => {
         this.props.moveToShelf(this.props.book, e.target.value);
     };
+    checkThumbnail = book => {
+        if (!book.imageLinks) {
+            return (
+                <div
+                    className="book-cover"
+                    style={{
+                        width: 128,
+                        height: 193,
+                        backgroundImage: `url(img/image-placeholder.jpg)`,
+                        backgroundSize: 'contain'
+                    }}
+                >
+                    <h5
+                        style={{
+                            textAlign: 'center',
+                            color: 'white'
+                        }}
+                    >
+                        {book.title}
+                    </h5>
+                </div>
+            );
+        } else {
+            return (
+                <img
+                    className="book-cover"
+                    src={book.imageLinks.thumbnail}
+                    alt={book.title}
+                    style={{
+                        width: 128,
+                        height: 193
+                    }}
+                />
+            );
+        }
+    };
     render() {
         const { book } = this.props;
         return (
             <li>
                 <div className="book">
                     <div className="book-top">
-                        <div
-                            className="book-cover"
-                            style={{
-                                width: 128,
-                                height: 193,
-                                backgroundImage: `url(${
-                                    book.imageLinks.thumbnail
-                                })`
-                            }}
-                        />
+                        {this.checkThumbnail(book)}
                         <div className="book-shelf-changer">
                             <select
                                 name={book.title}
-                                value={book.shelf}
+                                value={book.shelf ? book.shelf : 'none'}
                                 onChange={this.handleSelection}
                             >
                                 <option value="move" disabled>

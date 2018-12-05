@@ -36,7 +36,6 @@ class Shelf extends Component {
                                         <Book
                                             book={book}
                                             key={book.id}
-                                            shelfs={shelfs}
                                             moveToShelf={this.props.moveToShelf}
                                         />
                                     ))}

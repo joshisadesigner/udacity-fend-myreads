@@ -1,10 +1,39 @@
 import React, { Component } from 'react';
+import * as BooksAPI from './BooksAPI';
+import Book from './Book';
+// import escapeRegExp from 'escape-string-regexp';
+// import sortBy from 'sort-by';
 
 class SearchBooks extends Component {
+    state = {
+        query: '',
+        booksFound: []
+    };
+    updateQuery = query => {
+        this.setState({ query: query.trim() });
+    };
     handleSearch = e => {
-        this.props.searchBooks(e.target.value);
+        this.searchBooks(e.target.value);
+        console.log(`Value: "${e.target.value}"`);
+    };
+    searchBooks = query => {
+        if (query === '') {
+            this.setState({ query: '', booksFound: [] });
+        } else {
+            BooksAPI.search(query).then(booksFound => {
+                if (booksFound.error) {
+                    booksFound = [];
+                }
+                this.setState({
+                    booksFound
+                });
+            });
+            this.setState({ query: query });
+        }
     };
     render() {
+        const { booksFound } = this.state;
+        const { books } = this.props;
         return (
             <div className="search-books">
                 <div className="search-books-bar">
@@ -26,12 +55,29 @@ class SearchBooks extends Component {
                         <input
                             type="text"
                             placeholder="Search by title or author"
+                            value={this.state.query}
                             onChange={this.handleSearch}
                         />
                     </div>
                 </div>
                 <div className="search-books-results">
-                    <ol className="books-grid" />
+                    <ol className="books-grid">
+                        {booksFound.map(bookResult => {
+                            let bookOnShelf = books.find(
+                                book => book.id === bookResult.id
+                            );
+
+                            return (
+                                <Book
+                                    book={
+                                        bookOnShelf ? bookOnShelf : bookResult
+                                    }
+                                    key={bookResult.id}
+                                    moveToShelf={this.props.moveToShelf}
+                                />
+                            );
+                        })}
+                    </ol>
                 </div>
             </div>
         );
