@@ -4,6 +4,11 @@ class Book extends Component {
     handleSelection = e => {
         this.props.moveToShelf(this.props.book, e.target.value);
     };
+    /**
+     * @description Render book cover or placeholder cover image
+     * @package Object current book in map function
+     * @returns html
+     */
     checkThumbnail = book => {
         if (!book.imageLinks) {
             return (
