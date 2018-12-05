@@ -20,9 +20,7 @@ class SearchBooks extends Component {
         } else {
             BooksAPI.search(query).then(booksFound => {
                 if (booksFound.error) {
-                    this.setState({
-                        booksFound: []
-                    });
+                    booksFound = [];
                 }
                 this.setState({
                     booksFound
