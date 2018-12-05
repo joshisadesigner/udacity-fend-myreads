@@ -10,9 +10,6 @@ class SearchBooks extends Component {
         query: '',
         booksFound: []
     };
-    updateQuery = query => {
-        this.setState({ query: query.trim() });
-    };
     handleSearch = e => {
         this.searchBooks(e.target.value);
         console.log(`Value: "${e.target.value}"`);
