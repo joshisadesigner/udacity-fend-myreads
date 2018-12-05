@@ -13,6 +13,11 @@ class SearchBooks extends Component {
     handleSearch = e => {
         this.searchBooks(e.target.value);
     };
+    /**
+     * @description change state based on a query
+     * @param String input value
+     * @returns Object state
+     */
     searchBooks = query => {
         if (query === '') {
             this.setState({ query: '', booksFound: [] });
