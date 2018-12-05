@@ -50,12 +50,7 @@ class BooksApp extends React.Component {
      * @returns Array - List of all books with changed shelfs
      */
     moveToShelf = (book, newShelf) => {
-        BooksAPI.update(book, newShelf).then(response => {
-            console.log('BookAPI update response:');
-            console.log(response);
-            console.log(this.state.books);
-            this.getBooksData();
-        });
+        BooksAPI.update(book, newShelf).then(this.getBooksData());
     };
     render() {
         return (

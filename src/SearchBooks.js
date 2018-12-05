@@ -12,7 +12,6 @@ class SearchBooks extends Component {
     };
     handleSearch = e => {
         this.searchBooks(e.target.value);
-        console.log(`Value: "${e.target.value}"`);
     };
     searchBooks = query => {
         if (query === '') {
