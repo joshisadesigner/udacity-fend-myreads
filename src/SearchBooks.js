@@ -10,9 +10,6 @@ class SearchBooks extends Component {
         query: '',
         booksFound: []
     };
-    handleSearch = e => {
-        this.searchBooks(e.target.value);
-    };
     /**
      * @description change state based on a query
      * @param String input value
@@ -56,7 +53,7 @@ class SearchBooks extends Component {
                             type="text"
                             placeholder="Search by title or author"
                             value={this.state.query}
-                            onChange={this.handleSearch}
+                            onChange={e => this.searchBooks(e.target.value)}
                         />
                     </div>
                 </div>
