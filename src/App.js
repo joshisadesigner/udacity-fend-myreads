@@ -1,9 +1,10 @@
 import React from 'react';
-import { Link, Route } from 'react-router-dom';
+import { Link, Switch, Route } from 'react-router-dom';
 import * as BooksAPI from './BooksAPI';
 import './App.css';
 import SearchBooks from './SearchBooks';
 import Shelf from './BooksShelf';
+import NotFound from './404';
 
 class BooksApp extends React.Component {
     state = {
@@ -56,38 +57,41 @@ class BooksApp extends React.Component {
     render() {
         return (
             <div className="app">
-                <Route
-                    exact
-                    path="/"
-                    render={() => (
-                        <div className="list-books">
-                            <div className="list-books-title">
-                                <h1>MyReads</h1>
+                <Switch>
+                    <Route
+                        exact
+                        path="/"
+                        render={() => (
+                            <div className="list-books">
+                                <div className="list-books-title">
+                                    <h1>MyReads</h1>
+                                </div>
+                                <div className="list-books-content">
+                                    <Shelf
+                                        books={this.state.books}
+                                        shelfs={this.state.shelfs}
+                                        moveToShelf={this.moveToShelf}
+                                    />
+                                </div>
+                                <div className="open-search">
+                                    <Link to="/search">
+                                        <button>Add a book</button>
+                                    </Link>
+                                </div>
                             </div>
-                            <div className="list-books-content">
-                                <Shelf
-                                    books={this.state.books}
-                                    shelfs={this.state.shelfs}
-                                    moveToShelf={this.moveToShelf}
-                                />
-                            </div>
-                            <div className="open-search">
-                                <Link to="/search">
-                                    <button>Add a book</button>
-                                </Link>
-                            </div>
-                        </div>
-                    )}
-                />
-                <Route
-                    path="/search"
-                    render={() => (
-                        <SearchBooks
-                            books={this.state.books}
-                            moveToShelf={this.moveToShelf}
-                        />
-                    )}
-                />
+                        )}
+                    />
+                    <Route
+                        path="/search"
+                        render={() => (
+                            <SearchBooks
+                                books={this.state.books}
+                                moveToShelf={this.moveToShelf}
+                            />
+                        )}
+                    />
+                    <Route component={NotFound} />
+                </Switch>
             </div>
         );
     }
